@@ -1,37 +1,37 @@
 #include <bar.hpp>
 #include <iostream>
 
-struct Foo
+struct foo
 {
-    Bar _member;
+    bar _member;
 
-    Foo()
+    foo()
     {
-        std::cout << "Object Foo [" << this << "] created via default constructor \n";
+        std::cout << "Object foo [" << this << "] created via default constructor \n";
     }
-    ~Foo()
+    ~foo()
     {
-        std::cout << "Foo [" << this << "] destroyed\n";
+        std::cout << "foo [" << this << "] destroyed\n";
     }
 #if 1
-    Foo(Bar const & bar_obj) 
+    foo(bar const & bar_obj) 
         : _member(bar_obj)
     {
-        std::cout << "Object Foo [" << this << "] created via parameterised const reference \n";
+        std::cout << "Object foo [" << this << "] created via parameterised const reference \n";
     }
 #else
-    Foo(Bar bar_obj)
+    foo(bar bar_obj)
         : _member(std::move(bar_obj))
     {
-        std::cout << "Object Foo [" << this << "] via by parameterised by value \n";
+        std::cout << "Object foo [" << this << "] via by parameterised by value \n";
     }
 #endif
 };
 
 int main()
 {
-    Bar bar_obj{};
+    bar bar_obj{};
     std::cout << "BP1\n";
-    auto const object = Foo(bar_obj); 
+    auto const object = foo(bar_obj); 
     std::cout << "BP2\n";
 }

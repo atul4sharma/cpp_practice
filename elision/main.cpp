@@ -4,9 +4,9 @@
 
 #include <iostream>
 
-Bar foo()
+bar foo()
 {
-    auto const & x = Bar{};
+    auto const & x = bar{};
     std::cout << "BP1\n";
     return x;
 }

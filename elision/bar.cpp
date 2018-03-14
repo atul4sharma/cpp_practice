@@ -2,36 +2,36 @@
 
 #include <iostream>
 
-Bar::Bar()
+bar::bar()
 {
-    std::cout << "Object Bar [" << this << "] created via default constructor\n";
+    std::cout << "Object bar [" << this << "] created via default constructor\n";
 }
 
-Bar::Bar(Bar const & rhs)
+bar::bar(bar const & rhs)
 {
-    std::cout << "Object Bar [" << this << "] created via copy constructor\n";
+    std::cout << "Object bar [" << &rhs << "] ==> [" << this << "] created via copy constructor\n";
 }
 
-Bar & Bar::operator = (Bar const & rhs)
+bar & bar::operator = (bar const & rhs)
 {
-    std::cout << "Object Bar [" << this << "] created via copy assignment operator\n";
+    std::cout << "Object bar [" << &rhs << "] ==> [" << this << "] created via copy assignment operator\n";
     return *this;
 }
 
-Bar::~Bar()
+bar::~bar()
 {
-    std::cout << "Object Bar [" << this << "] destroyed\n";
+    std::cout << "Object bar [" << this << "] destroyed\n";
 }
     
 #if 1
-Bar::Bar(Bar && lhs)
+bar::bar(bar && rhs)
 {
-    std::cout << "Object Bar [" << this << "] move constructed\n";
+    std::cout << "Object bar [" << &rhs << "] ==> [" << this << "] move constructed\n";
 }
 
-Bar & Bar::operator = (Bar && rhs)
+bar & bar::operator = (bar && rhs)
 {
-    std::cout << "Object Bar [" << this << "] constructed via move assignment\n";
+    std::cout << "Object bar [" << &rhs << "] ==> [" << this << "] constructed via move assignment\n";
     return *this;
 }
 #endif

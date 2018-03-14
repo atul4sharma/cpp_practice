@@ -1,25 +1,25 @@
 //This class is just used to check the flow of the program
-class Bar
+class bar
 {
 
     public:
         // Default constructor
-        Bar();
+        bar();
 
         // Copy constructor
-        Bar(Bar const & rhs);
+        bar(bar const & rhs);
 
         // Copy assignment operator
-        Bar & operator = (Bar const & rhs);
+        bar & operator = (bar const & rhs);
 
         // Destructor
-        ~Bar();
+        ~bar();
 
 #if 1
         // Move constructor
-        Bar(Bar && lhs);
+        bar(bar && rhs);
 
         // Move assignment operator
-        Bar & operator = (Bar && rhs);
+        bar & operator = (bar && rhs);
 #endif
 };
