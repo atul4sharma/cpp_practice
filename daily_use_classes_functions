@@ -1,0 +1,2 @@
+class with the special functions explicitly defined for the purpose of debugging ==> elision
+function that prints the type of the variable ==> type_deduction
