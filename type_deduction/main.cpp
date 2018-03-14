@@ -19,6 +19,8 @@ auto ded_type()
     else
         result += "neither lvalue reference nor rvalue reference , ";
 
+// we need to remove_reference, to check the constantness of the object the T is referring to 
+// and not the reference or pointer itself is constant
 //    if( std::is_const< decltype(std::forward<T>(x)) >::value )
     if( std::is_const< typename std::remove_reference<T>::type >::value )
         result += "const .";
