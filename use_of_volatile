@@ -1,0 +1,3 @@
+volatile tells the compiler that a particular object is volatile, that means it can be changed by some other entity XYZ.
+Hence it instructs compiler to not perform any implicit optimizations
+https://stackoverflow.com/questions/4437527/why-do-we-use-volatile-keyword-in-c/4437555
