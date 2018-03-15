@@ -3,7 +3,7 @@
 
 struct foo
 {
-    bar _member;
+    elision::bar _member;
 
     foo()
     {
@@ -14,13 +14,13 @@ struct foo
         std::cout << "foo [" << this << "] destroyed\n";
     }
 #if 1
-    foo(bar const & bar_obj) 
+    foo(elision::bar const & bar_obj) 
         : _member(bar_obj)
     {
         std::cout << "Object foo [" << this << "] created via parameterised const reference \n";
     }
 #else
-    foo(bar bar_obj)
+    foo(elision::bar bar_obj)
         : _member(std::move(bar_obj))
     {
         std::cout << "Object foo [" << this << "] via by parameterised by value \n";
@@ -30,7 +30,7 @@ struct foo
 
 int main()
 {
-    bar bar_obj{};
+    elision::bar bar_obj{};
     std::cout << "BP1\n";
     auto const object = foo(bar_obj); 
     std::cout << "BP2\n";
