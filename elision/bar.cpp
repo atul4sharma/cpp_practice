@@ -76,4 +76,9 @@ namespace elision
         return *this;
     }
 #endif
+
+    void bar::doSomething() const
+    {
+        std::cout << "This function do something \n";
+    }
 }

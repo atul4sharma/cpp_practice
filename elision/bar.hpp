@@ -37,5 +37,8 @@ namespace elision
             // Move assignment operator
             bar & operator = (bar && rhs);
 #endif
+
+            virtual void doSomething() const;
+
     };
 }
