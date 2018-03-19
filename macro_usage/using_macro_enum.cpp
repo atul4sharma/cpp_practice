@@ -1,3 +1,5 @@
+#include <iostream>
+
 #define colors_enum\
     func(red)\
     func(green)\
