@@ -38,7 +38,15 @@ namespace elision
             bar & operator = (bar && rhs);
 #endif
 
+            int x()
+            {return _x;}
+
+            void x(int x)
+            {_x = x;}
+
             virtual void doSomething() const;
+        private:
+            int _x = 10;
 
     };
 }

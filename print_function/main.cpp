@@ -41,7 +41,7 @@ auto print(Type object)
     {
         print(item);
     }
-    std::cout << "} ";
+    std::cout << "} , ";
 
 }
 #endif
@@ -70,6 +70,10 @@ int main()
 
     std::vector<int> vec{1, 2, 3, 4, 5};
     println(vec);
+    
+    std::vector<std::vector<int>> two_d{vec, vec, vec, vec, vec};
+    println(two_d);
+
     std::set<int> s;
     s.insert(1);
     s.insert(2);
