@@ -38,7 +38,7 @@ namespace elision
             bar & operator = (bar && rhs);
 #endif
 
-            int x()
+            int x() const
             {return _x;}
 
             void x(int x)
