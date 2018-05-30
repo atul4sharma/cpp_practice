@@ -1,6 +1,7 @@
 //This class is just used to check the flow of the program
 #pragma once
 
+#include <iostream>
 #include <string>
 #include <initializer_list>
 namespace elision
@@ -19,7 +20,7 @@ namespace elision
             bar & operator = (bar const & rhs);
 
             // Destructor
-            ~bar();
+            virtual ~bar();
 
             // Parameterised constructor
             bar(int const &, double const &);
@@ -43,6 +44,12 @@ namespace elision
 
             void x(int x)
             {_x = x;}
+
+            void print_address() const
+            {
+	            std::cerr << "\n" << __LINE__ << "\n";
+                std::cout << "address : " << this << "\n";
+            }
 
             virtual void doSomething() const;
         private:
