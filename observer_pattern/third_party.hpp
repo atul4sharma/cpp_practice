@@ -4,6 +4,7 @@
 #include <stock.hpp>
 
 #include <iostream>
+#include <memory>
 
 class third_party : public server
 {
@@ -16,11 +17,11 @@ class third_party : public server
 
         void remove_stock(stock const & item);
 
-        void add_country   (abstract_user       * usr, 
-                            country       const & code);
+        void add_country   (std::shared_ptr<abstract_user>         usr, 
+                            country                        const & code);
 
-        void remove_country(abstract_user       * usr,
-                            country       const & code);
+        void remove_country(std::shared_ptr<abstract_user>         usr,
+                            country                        const & code);
 
 };
 

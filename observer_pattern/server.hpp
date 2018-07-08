@@ -8,7 +8,7 @@
 #include <iostream>
 #include <unordered_map>
 #include <string>
-
+#include <memory>
 
 class server
 {
@@ -21,9 +21,9 @@ class server
             _all_stocks.emplace_back(stock{"mortg", country::USA, 3035});
         }
 
-        void add_user   (abstract_user * usr);
+        void add_user   (std::shared_ptr<abstract_user> usr);
 
-        void remove_user(abstract_user * usr);
+        void remove_user(std::shared_ptr<abstract_user> usr);
 
         void notify     (std::string const & id,
                          size_t      const & cost);
@@ -32,20 +32,19 @@ class server
 
         void remove_stock(stock const & item);
 
-        void add_country   (abstract_user       * usr,
-                            country       const & code);
+        void add_country   (std::shared_ptr<abstract_user>         usr,
+                            country                        const & code);
 
-        void remove_country(abstract_user       * usr,
-                            country       const & code);
+        void remove_country(std::shared_ptr<abstract_user>         usr,
+                            country                        const & code);
 
     private:
         void notify_stock_addition(stock const & item);
 
         void notify_stock_removal (stock const & item);
 
-        std::vector<abstract_user*> _registered_users;
-        std::vector<stock>          _all_stocks;
+        std::vector<std::shared_ptr<abstract_user>> _registered_users;
+        std::vector<stock>                          _all_stocks;
         
-
 };
 

@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <algorithm>
 
-void server::add_user(abstract_user * usr)
+void server::add_user(std::shared_ptr<abstract_user> usr)
 {
     _registered_users.push_back(usr);
 
@@ -24,7 +24,7 @@ void server::add_user(abstract_user * usr)
 
 }
 
-void server::remove_user(abstract_user * usr)
+void server::remove_user(std::shared_ptr<abstract_user> usr)
 {
     auto iter = std::find(std::begin(_registered_users),
                           std::end  (_registered_users),
@@ -71,15 +71,15 @@ void server::remove_stock(stock const & item)
 }
 
 
-void server::add_country(abstract_user       * usr,
-                         country       const & code)
+void server::add_country(std::shared_ptr<abstract_user>         usr,
+                         country                        const & code)
 {
     auto interested_countries = usr->interested_countries();
     interested_countries.push_back(code);
 }
 
-void server::remove_country(abstract_user       * usr,
-                            country       const & code)
+void server::remove_country(std::shared_ptr<abstract_user>         usr,
+                            country                        const & code)
 {
     auto interested_countries = usr->interested_countries();
     auto iter = std::find(std::begin(interested_countries),
@@ -122,3 +122,5 @@ void server::notify_stock_removal(stock const & item)
         }
     }
 }
+
+

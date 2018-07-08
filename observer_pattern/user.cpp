@@ -92,4 +92,3 @@ std::vector<country> user::interested_countries()
 }
 
 
-

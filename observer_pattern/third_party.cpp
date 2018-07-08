@@ -22,14 +22,14 @@ void third_party::remove_stock(stock const & item)
     server::remove_stock(item);
 }
 
-void third_party::add_country(abstract_user       * usr, 
-                              country       const & code)
+void third_party::add_country(std::shared_ptr<abstract_user>         usr, 
+                              country                        const & code)
 {
     server::add_country(usr, code);
 }
 
-void third_party::remove_country(abstract_user       * usr,
-                                 country       const & code)
+void third_party::remove_country(std::shared_ptr<abstract_user>         usr,
+                                 country                        const & code)
 {
     server::remove_country(usr, code);
 }

@@ -26,7 +26,7 @@ struct stock
 
     bool        operator==(stock const & item)
     {
-        if( _id == item.id()  && _country_code == item.country_code() && _price == item.price() )
+        if( _id == item.id() && _country_code == item.country_code() && _price == item.price() )
             return true;
         else
             return false;
