@@ -15,6 +15,7 @@ class server
     public:
         server()
         {
+            std::cout << "Initializing server ... \n";
             _all_stocks.emplace_back(stock{"muni" , country::IND, 300});
             _all_stocks.emplace_back(stock{"bogie", country::AUS, 4300});
             _all_stocks.emplace_back(stock{"fixed", country::EUR, 3030});

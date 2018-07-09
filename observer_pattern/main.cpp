@@ -10,23 +10,26 @@
 
 int main()
 {
-    std::cout << "Main\n";
     third_party server_obj{};
 
-    auto country_list_for_zeeshan = std::vector<country>{country::EUR, country::AUS};
-    auto country_list_for_atul    = std::vector<country>{country::EUR, country::IND};
+    auto register_user = [&server_obj] (std::string          const & user_name, 
+                                        std::vector<country> const & c_list)
+    {
+        std::cout << "Adding user " << user_name << "\n";
 
-    auto zeeshan = std::make_shared<user>(country_list_for_zeeshan);
+        auto ptr = std::make_shared<user>(c_list);
+        server_obj.add_user(ptr);
 
-    auto atul    = std::make_shared<user>(country_list_for_atul);
+        std::cout << "USER " << user_name << " added\n\n";
+        return ptr;
+    };
 
-    server_obj.add_user(zeeshan);
-    std::cout << "Added zeeshan\n\n";
-    
-    server_obj.add_user(atul);
-    std::cout << "Added atul\n\n";
+    auto zeeshan = register_user("zeeshan", std::vector<country>{country::EUR, country::AUS});
+
+    auto atul    = register_user("atul"   , std::vector<country>{country::EUR, country::IND});
 
     server_obj.update_price("bogie", 23423423);
+
     server_obj.update_price("muni", 222);
 
     server_obj.add_stock(stock{"new", country::AUS, 123});
