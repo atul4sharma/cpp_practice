@@ -31,8 +31,6 @@ struct stock
         else
             return false;
     }
-
-
     
     private:
         std::string _id;

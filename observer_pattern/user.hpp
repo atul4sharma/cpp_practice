@@ -23,9 +23,7 @@ class user : public abstract_user
         void update_stock_price(std::string const & id,
                                 size_t      const & price) override;
 
-        std::unordered_map<std::string, stock> stock_list();
-
-        std::vector<country> interested_countries()         override;
+        std::vector<country> interested_countries() const  override;
 
         void interested_stocks();
 

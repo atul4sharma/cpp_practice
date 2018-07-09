@@ -79,13 +79,7 @@ void user::interested_stocks()
 
 }
 
-
-std::unordered_map<std::string, stock> user::stock_list()
-{ 
-    return _stock_list;
-}
-
-std::vector<country> user::interested_countries()
+std::vector<country> user::interested_countries() const
 {
     return _interested_countries;
 }
