@@ -17,7 +17,7 @@ int main()
     {
         std::cout << "Adding user " << user_name << "\n";
 
-        auto ptr = std::make_shared<user>(c_list);
+        auto ptr = std::make_shared<user>(user_name, c_list);
         server_obj.add_user(ptr);
 
         std::cout << "USER " << user_name << " added\n\n";

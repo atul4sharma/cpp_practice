@@ -8,12 +8,11 @@
 #include <vector>
 #include <algorithm>
 
-user::user(std::vector<country> const & list)
+user::user(std::string          const & user_name,
+           std::vector<country> const & list)
+          :_user_name(user_name)
+          ,_interested_countries(list)
 {
-    for(auto const & item : list)
-    {
-        _interested_countries.emplace_back(item);
-    }
 }
 
 void user::add_stock(stock const & item)
@@ -44,7 +43,7 @@ void user::update_stock_price(std::string const & id,
     {
         auto stock_to_update = _stock_list.at(id);
         stock_to_update.price(price);
-        std::cout << this << " : " << id << " updated price : " << stock_to_update.price() << "\n";
+        std::cout << _user_name << " : " << id << " updated price : " << stock_to_update.price() << "\n";
     }
     catch(std::exception const & e)
     {
@@ -71,7 +70,7 @@ void user::remove_country(country const & code)
 
 void user::interested_stocks()
 {
-    std::cout << "object => " << this << " interested in stocks : ";
+    std::cout << "object => " << _user_name << " is interested in stocks : ";
     for(auto const & item : _stock_list)
     {
         std::cout << item.first << ", ";

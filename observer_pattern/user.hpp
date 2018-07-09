@@ -8,13 +8,13 @@
 #include <vector>
 #include <unordered_map>
 
-
 class user : public abstract_user
 {
     public:
         user() = default;
 
-        user(std::vector<country> const & list);
+        user(std::string          const & user_name,
+             std::vector<country> const & list);
 
         void add_stock   (stock const & item)              override;
 
@@ -35,6 +35,7 @@ class user : public abstract_user
 
         void remove_country(country const & code);
 
+        std::string                            _user_name;
         std::unordered_map<std::string, stock> _stock_list;
         std::vector<country>                   _interested_countries{country::IND};
 
