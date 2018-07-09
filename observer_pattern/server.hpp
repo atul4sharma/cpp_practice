@@ -16,10 +16,11 @@ class server
         server()
         {
             std::cout << "Initializing server ... \n";
-            _all_stocks.emplace_back(stock{"muni" , country::IND, 300});
-            _all_stocks.emplace_back(stock{"bogie", country::AUS, 4300});
-            _all_stocks.emplace_back(stock{"fixed", country::EUR, 3030});
-            _all_stocks.emplace_back(stock{"mortg", country::USA, 3035});
+            // Assumption is that every stock has a different string identifier
+            _all_stocks.emplace_back("muni" , country::IND, 300);
+            _all_stocks.emplace_back("bogie", country::AUS, 4300);
+            _all_stocks.emplace_back("fixed", country::EUR, 3030);
+            _all_stocks.emplace_back("mortg", country::USA, 3035);
         }
 
         void add_user   (std::shared_ptr<abstract_user> usr);
