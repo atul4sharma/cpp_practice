@@ -1,5 +1,6 @@
 #include <bar.hpp>
 
+#include <string>
 #include <iostream>
 namespace elision
 {
@@ -36,6 +37,13 @@ namespace elision
             std::cout << "Object bar [" << this << "] created via parameterised constructor (int, double) = (" << x << ", " << y << ")\n";
     }
 
+    bar::bar(std::string const & val)
+    {
+        if( DEBUG == true )
+            std::cout << "Object bar [" << this << "] created via parameterised constructor (string) = (" << val << ")\n";
+        
+    }
+#if 0
     bar::bar(std::initializer_list<std::string> const & sequence)
     {
         if( DEBUG == true )
@@ -61,6 +69,7 @@ namespace elision
             std::cout << ")\n";
         }
     }
+#endif
 
 #if 1
     bar::bar(bar && rhs)

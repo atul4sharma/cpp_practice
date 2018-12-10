@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <initializer_list>
+
 namespace elision
 {
     extern bool DEBUG;
@@ -24,13 +25,17 @@ namespace elision
 
             // Parameterised constructor
             bar(int const &, double const &);
+            
+            // Parameterised constructor string
+            bar(std::string const &);
 
+#if 0
             // Parameterised initializer_list constructor std::string
             bar(std::initializer_list<std::string> const &);
 
             // Parameterised initializer_list constructor int
             bar(std::initializer_list<int> const &);
-
+#endif
 #if 1
             // Move constructor
             bar(bar && rhs);
