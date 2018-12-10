@@ -1,0 +1,21 @@
+Object bar [0x7ffc49380d30] created via parameterised constructor (string) = (test_run_statement)
+copy and move 
+Object bar [0x7ffc49380d30] ==> [0x7ffc49380d40] created via copy constructor
+
+--------------------------------------------------------------------------------
+Object bar [0x7ffc49380d40] ==> [0x1a99c50] move constructed
+********************************************************************************
+
+Object bar [0x7ffc49380d40] destroyed
+Object bar [0x7ffc49380d50] created via parameterised constructor (string) = (test_run_statement)
+
+--------------------------------------------------------------------------------
+Object bar [0x7ffc49380d50] ==> [0x1a99c80] move constructed
+Object bar [0x1a99c50] ==> [0x1a99c70] created via copy constructor
+Object bar [0x1a99c50] destroyed
+********************************************************************************
+
+Object bar [0x7ffc49380d50] destroyed
+Object bar [0x7ffc49380d30] destroyed
+Object bar [0x1a99c70] destroyed
+Object bar [0x1a99c80] destroyed

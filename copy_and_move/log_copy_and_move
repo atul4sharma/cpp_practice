@@ -1,0 +1,19 @@
+Object bar [0x7fffcb836c50] created via parameterised constructor (string) = (test_run_statement)
+const & 
+
+--------------------------------------------------------------------------------
+Object bar [0x7fffcb836c50] ==> [0x916c50] created via copy constructor
+********************************************************************************
+
+Object bar [0x7fffcb836c60] created via parameterised constructor (string) = (test_run_statement)
+
+--------------------------------------------------------------------------------
+Object bar [0x7fffcb836c60] ==> [0x916c80] created via copy constructor
+Object bar [0x916c50] ==> [0x916c70] created via copy constructor
+Object bar [0x916c50] destroyed
+********************************************************************************
+
+Object bar [0x7fffcb836c60] destroyed
+Object bar [0x7fffcb836c50] destroyed
+Object bar [0x916c70] destroyed
+Object bar [0x916c80] destroyed
