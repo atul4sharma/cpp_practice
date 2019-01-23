@@ -18,6 +18,19 @@ struct file_reader
 };
 
 template <typename construct_type>
+struct execute_proc
+{
+	auto execute(/*db_executor &db
+				   ,*/std::string const & gtt_table)
+		-> void
+	{
+		auto const & query = static_cast<construct_type&>(*this).proc_query(gtt_table);
+		std::cout << "will execute query : " << query << "\n";
+		//db.execute(query);
+	}
+};
+
+template <typename construct_type>
 struct bulk_inserter
 {
     template <typename ...rest_of_the_parameter>
@@ -35,7 +48,7 @@ struct bulk_inserter
     }
 };
 
-struct security_list : bulk_inserter<security_list>, file_reader<security_list>
+struct security_list : bulk_inserter<security_list>, file_reader<security_list>, execute_proc<security_list>
 {
     explicit security_list(std::string a, std::string b, std::string c)
         :_a(a), _b(b), _c(c)
@@ -64,6 +77,12 @@ struct security_list : bulk_inserter<security_list>, file_reader<security_list>
 				  << "run_id        => " << run_id        << "\n"
                   << "was_loaded    => " << was_loaded    << "\n";
     }
+
+	auto proc_query(std::string const & gtt_table) const
+		-> std::string const
+	{
+		return std::string{ "select * from " + gtt_table };
+	}
     
     std::string _a;
     std::string _b;
@@ -89,10 +108,12 @@ int main()
     
     auto const result_rows = obj3.read_file("somefile");
     
+#if 0
     for(auto const & item : result_rows)
     {
         std::cout << item << "\n";
     }
+#endif
 
 /*
 				   std::vector<security_list>  const & result
@@ -104,6 +125,7 @@ int main()
                   ,bool                                was_loaded)
 */	
     
-	obj3.load_data(result_rows, "gtt_table_val", 20000, "price_date_val", "invocation_id_val", "run_id_val", true);
+	obj3.load_data(/*db,*/ result_rows, "gtt_table_val", 20000, "price_date_val", "invocation_id_val", "run_id_val", true);
+	obj3.execute(/*db,*/ "gtt_table_val");
     
 }
