@@ -1,5 +1,7 @@
 #include "security_list_struct.hpp"
 
+#include "db_log_info.hpp"
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -16,7 +18,7 @@ int main()
     std::cout << obj2 << "\n";
 #endif 
 
-    auto obj3 = security_list{color};
+    auto obj3 = security_list{};
     
     auto const result_rows = obj3.read_file("somefile");
     
@@ -28,16 +30,17 @@ int main()
 #endif
 
 /*
-				   std::vector<security_list>  const & result
+                   std::vector<security_list>  const & result
                   ,std::string                 const & gtt_table
                   ,std::size_t                 const & batch_size
                   ,std::string                 const & price_date
                   ,std::string                 const & invocation_id
                   ,std::string                 const & run_id
                   ,bool                                was_loaded)
-*/	
+*/  
     
-	obj3.load_data(/*db,*/ result_rows, "gtt_table_val", 20000, "price_date_val", "invocation_id_val", "run_id_val", true);
-	obj3.execute(/*db,*/ "gtt_table_val");
+    auto const & log_info_object = db_log_info{"price_date_val", "invocation_id_value", "run_id_value"};
+    obj3.load_data(/*db,*/ result_rows, "gtt_table_val", 20000, log_info_object, true);
+    obj3.execute(/*db,*/ "gtt_table_val");
     
 }
