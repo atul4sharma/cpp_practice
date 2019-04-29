@@ -59,22 +59,15 @@ auto create_list(ListNode ** start, std::initializer_list<int> const & l)
 }
 
 auto delete_list(ListNode ** head)
-    -> int
+    -> void
 {
-    auto counter = int{0};
     if( *head == NULL )
-        return 0;
+        return;
 
-    ListNode * prev;
-    while( *head != NULL )
-    {
-        prev = *head;
-        *head = (*head)->next;
-        delete prev;
-        ++counter;
-    }
+    ListNode * temp = (*head)->next;
+    delete *head;
     *head = NULL;
-    return counter;
+    delete_list(&temp);
 }
 
 int main()
