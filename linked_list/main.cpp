@@ -1,5 +1,6 @@
 
 #include <iostream>
+#include <cmath>
 
 
 struct ListNode 
@@ -73,63 +74,19 @@ auto delete_list(ListNode ** head)
 auto reverse_list(ListNode ** head)
     -> void
 {
-    if( *head == NULL or (*head)->next == NULL )
+    if( *head == NULL )
+        return;
+    ListNode * first = *head;
+    ListNode * rest  = first->next;
+
+    if( rest == NULL )
         return;
 
-    ListNode * current = *head;
-    ListNode * next    = NULL;
-    ListNode * prev    = NULL;
+    reverse_list(&rest);
+    (first->next)->next = first;
+    first->next = NULL;
 
-    while( current != NULL )
-    {
-        next = current->next;
-        current->next = prev;
-
-        prev    = current;
-        current = next;
-    }
-    
-    *head = prev;
-}
-
-auto reverse_list(ListNode ** head, int A, int B)
-    -> void
-{
-    if( *head == NULL or (*head)->next == NULL )
-        return;
-
-    auto counter = int{0};
-    ListNode * current = *head;
-    ListNode * next    = NULL;
-    ListNode * prev    = NULL;
-    
-    do
-    {
-        next    = current->next;
-        prev    = current;
-        current = next;
-
-        ++counter;
-    } while( counter < A-1);
-
-    ListNode * starting = prev;
-    ListNode * ending = current;
-
-    while( counter < B-1 and current != NULL)
-    {
-        next = current->next;
-        current->next = prev;
-
-        prev    = current;
-        current = next;
-        ++counter;
-    }
-
-    next           = current->next;
-    current->next  = prev;
-    starting->next = current;
-    ending->next   = next;
-
+    *head = rest;
 }
 
 auto count_elements(ListNode * head)
@@ -169,27 +126,71 @@ auto calculate_difference(ListNode * head, int n)
 
     while(i < half)
     {
-        a = head;
-        b = head;
-        increment_by(&a, i);
-        increment_by(&b, n-i-1);
-        //std::cout << "a -> " << a->val << " b -> " << b->val << "\n";
+        b = a;
+        increment_by(&b, n - (i*2)-1);
         a->val = b->val - a->val;
+        increment_by(&a, 1);
         ++i;
     }
     return head;
 }
 
+auto reverse_after(ListNode * head, int n)
+    -> ListNode *
+{
+    if( n <= 1)
+        return head;
+
+    ListNode * a = head;
+    increment_by(&a, n-1);
+    ListNode * b = a;
+    a = a->next;
+    reverse_list(&a);
+    b->next = a;
+
+    return a;
+
+}
+
+auto calc_difference(ListNode * head)
+    -> void
+{
+    if(head == NULL or head->next == NULL )
+        return;
+
+    int n = count_elements(head);
+    if( n == 2 )
+    {
+        head->val = head->next->val - head->val;
+        return;
+    }
+    int half = std::ceil(n/2.0);
+    ListNode * first  = head;
+    ListNode * second = reverse_after(head, half);
+
+    while(second != NULL)
+    {
+        first->val = second->val - first->val;
+        first  = first->next;
+        second = second->next;
+    }
+    reverse_after(head, half);
+}
 
 int main()
 {
 
     ListNode * head = NULL;
-    create_list(&head, {1,2,3,4,5,6,7,8,9,10});
+    //create_list(&head, {1,2,3,4,5,6,7,8,9,10});
+    create_list(&head, {1,5});
     print_list(std::cout, head);
     int n = count_elements(head);
     //increment_by(&head, 2);
-    calculate_difference(head, n);
+    //calculate_difference(head, n);
+    //reverse_list(&head);
+    //int half = std::ceil(n/2.0);
+    //reverse_after(head, half);
+    calc_difference(head);
     print_list(std::cout, head);
 
 }
