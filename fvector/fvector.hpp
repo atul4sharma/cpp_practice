@@ -48,14 +48,6 @@ struct fvector_int
             return _v[index];
         }
 
-        friend auto operator == (fvector_int const & lt
-                                ,fvector_int const & rt)
-            -> bool;
-
-        friend auto operator < (fvector_int const & lt
-                               ,fvector_int const & rt)
-            -> bool;
-
         friend auto size(fvector_int const & v)
             -> std::size_t;
 
@@ -155,5 +147,5 @@ auto operator <= (fvector_int const & lt
                  ,fvector_int const & rt)
     -> bool
 {
-    return !(lt > rt);
+    return !(rt < lt);
 }
