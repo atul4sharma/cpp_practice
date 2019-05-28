@@ -46,9 +46,6 @@ namespace
                ,int)
         -> ForwardIterator
     {
-        if (first == last)
-            return last;
-     
         auto result = first;
         while (first != last) 
         {
@@ -74,6 +71,7 @@ int main()
                              ,foo{3,21}
                              ,foo{4,25}
                              ,foo{5,25}
+                             ,foo{6,26}
                              };
     std::stable_sort(v.begin(), v.end());
     v.erase(unique(v.begin(), v.end(), int{})
