@@ -38,30 +38,30 @@ auto operator << (std::ostream       & out
     return out;
 }
 
-namespace 
+template <typename ForwardIterator, typename OutputIterator>
+auto unique_copy_duplicates(ForwardIterator first
+                           ,ForwardIterator last
+                           ,OutputIterator  duplicates)
+    -> ForwardIterator
 {
-    template <typename ForwardIterator>
-    auto unique(ForwardIterator first
-               ,ForwardIterator last
-               ,int)
-        -> ForwardIterator
+    auto unique = first;
+    auto next   = std::next(first);
+    while( first != last )
     {
-        auto result = first;
-        while (first != last) 
+        *unique = std::move(*first);
+        // Traverse duplicates
+        while( next != last and *unique == *next )
         {
-            *result = *first;        
-            auto next = first + 1;
-            
-            while( next != last and *first == *next )
-            {
-                //std::cout << "bad_record -> " << *next << "\n";
-                ++first; ++next;
-            }
-            ++result;
-            first = next;
+            //std::cout << "bad_record -> " << *next << "\n";
+            *duplicates = *next;
+            std::advance(next, 1);
+            ++duplicates;
         }
-        return result;
+        first = next;
+        std::advance(next, 1);
+        std::advance(unique, 1);
     }
+    return unique;
 }
 
 int main()
@@ -73,11 +73,18 @@ int main()
                              ,foo{5,25}
                              ,foo{6,26}
                              };
+    auto duplicates = std::vector<foo>{};
+    std::cout << "Original:\n";
+    std::copy(v.begin(), v.end(), std::ostream_iterator<foo>(std::cout, "\n"));
+
     std::stable_sort(v.begin(), v.end());
-    v.erase(unique(v.begin(), v.end(), int{})
+    v.erase(unique_copy_duplicates(v.begin(), v.end(), std::back_inserter(duplicates))
            ,v.end());
            
+    std::cout << "\nUnique:\n";
     std::copy(v.begin(), v.end(), std::ostream_iterator<foo>(std::cout, "\n"));
+    std::cout << "\nDuplicates:\n";
+    std::copy(duplicates.begin(), duplicates.end(), std::ostream_iterator<foo>(std::cout, "\n"));
     
 }
 
