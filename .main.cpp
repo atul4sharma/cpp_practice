@@ -11,7 +11,7 @@ template <typename T>
 auto operator << (std::ostream & out, std::vector<T> const & v)
     -> std::ostream &
 {
-    std::copy(v.begin(), v.end(), std::ostream_iterator<T>(std::cout, ", "));
+    std::copy(v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
     return out;
 }
 
