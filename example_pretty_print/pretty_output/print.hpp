@@ -19,12 +19,16 @@ template <typename Container>
 auto print_impl(std::ostream & out, Container const & iterable, meta::_1st_preference)
     -> decltype(iterable.begin(), out)
 {
+    auto is_delim = false;
     using std::begin; using std::end;
     out << "{";
     for(auto const & item : iterable)
     {
-        out << ", ";
+        if( is_delim )
+            out << ", ";
         print(out, item);
+        if( not is_delim )
+            is_delim = true;
     }
     out << "}";
     return out;
