@@ -10,7 +10,6 @@
 
 #include "pretty_output/print.hpp"
 
-
 int main()
 {
     //auto const v = std::vector<int>{1, 2, 3, 4, 5, 6};
