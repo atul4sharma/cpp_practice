@@ -44,9 +44,6 @@ auto print_impl(std::ostream & out, Container const & iterable, meta::_2nd_prefe
     return out;
 }
 
-
-#if 1
-
 template <typename Range, typename Int, Int ... ints>
 auto print_indexable_impl(std::ostream & out, Range const & range, integer_sequence<Int, ints...>)
     -> std::ostream &
@@ -71,7 +68,6 @@ auto print_impl(std::ostream & out, Container const & item, meta::_2nd_preferenc
 {
    return print_indexable(out, item);
 }
-#endif         
 
 template <typename T>
 auto print(std::ostream & out, T const & item)
