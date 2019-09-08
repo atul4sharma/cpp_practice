@@ -35,5 +35,27 @@ int main()
         auto ptr = return_pointer(10);
         std::cout << boost::typeindex::type_id<decltype(ptr)>().pretty_name() << " => " << *ptr << "\n";
     }
+    std::cout << "\nTrying unique_ptr copy\n";
+    {
+        auto ptr = return_custom_deleter_pointer(50);
+        //Ways to transfer ownership
+        //
+        auto ptr_copy{std::move(ptr)};
+        //
+        //auto ptr_copy = decltype(ptr){nullptr, int_deleter};
+        //ptr_copy.reset(ptr.release());
+
+        //Using operator* on ptr causes segfault, since the ownership has been
+        //transferred to ptr_copy
+        //std::cout << boost::typeindex::type_id<decltype(ptr)>().pretty_name() << " ptr      => " << *ptr << "\n";
+        std::cout << boost::typeindex::type_id<decltype(ptr)>().pretty_name() << " ptr_copy => " << *ptr_copy << "\n";
+    }
+
+    std::cout << "\nTrying capturing via shared_ptr\n";
+    {
+        std::shared_ptr<int> ptr = return_pointer(100);
+        std::cout << boost::typeindex::type_id<decltype(ptr)>().pretty_name() << " ptr => " << *ptr << "\n";
+    }
+
     return 0;
 }
