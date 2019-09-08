@@ -29,37 +29,41 @@ template <typename Container>
 auto print_impl(std::ostream & out, Container const & iterable, meta::_2nd_preference)
     -> decltype(iterable.begin(), out)
 {
-    auto is_delim = false;
-    using std::begin; using std::end;
+    using std::begin; using std::end; using std::next;
     out << "{";
-    for(auto const & item : iterable)
+    if( begin(iterable) != end(iterable) )
     {
-        if( is_delim )
-            out << ", ";
-        print(out, item);
-        if( not is_delim )
-            is_delim = true;
+        print(out, *(begin(iterable)));
+        std::for_each(next(begin(iterable))
+                     ,end(iterable)
+                     ,[&out](decltype(*begin(iterable)) const & item)
+                            {
+                                 print((out << ", ", out), item);
+                            }
+                     );
     }
     out << "}";
     return out;
 }
 
-template <typename Range, typename Int, Int ... ints>
-auto print_indexable_impl(std::ostream & out, Range const & range, integer_sequence<Int, ints...>)
-    -> std::ostream &
-{
-    out << "(";
-    (int[]){0, (print((out << ((ints == 0) ? "":", "), out)
-                     ,std::get<ints>(range)), 0)...};
-    out << ")";
-    return out;
-}
+namespace {
+    template <typename Range, typename Int, Int ... ints>
+    auto print_indexable_impl(std::ostream & out, Range const & range, integer_sequence<Int, ints...>)
+        -> std::ostream &
+    {
+        out << "(";
+        (int[]){(print((out << ((ints == 0) ? "":", "), out)
+                      ,std::get<ints>(range)), 0)...};
+        out << ")";
+        return out;
+    }
 
-template <typename Range>
-auto print_indexable(std::ostream & out, Range const & range)
-    -> std::ostream &
-{
-    return print_indexable_impl(out, range, make_index_sequence<std::tuple_size<Range>::value>{});
+    template <typename Range>
+    auto print_indexable(std::ostream & out, Range const & range)
+        -> std::ostream &
+    {
+        return print_indexable_impl(out, range, make_index_sequence<std::tuple_size<Range>::value>{});
+    }
 }
 
 template <typename Container>
@@ -67,6 +71,13 @@ auto print_impl(std::ostream & out, Container const & item, meta::_2nd_preferenc
     -> decltype(std::tuple_size<Container>::value , out)
 {
    return print_indexable(out, item);
+}
+
+template <typename T, typename D>
+auto print_impl(std::ostream & out, std::unique_ptr<T, D> const & ptr, meta::_1st_preference)
+    -> std::ostream &
+{
+    return print(out, *ptr);
 }
 
 template <typename T>

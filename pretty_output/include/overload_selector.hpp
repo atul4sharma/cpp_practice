@@ -5,7 +5,7 @@ namespace meta
 {
     template <int N>
     struct preference : preference<N+1> {};
-    
+
     template <>
     struct preference<5> {};
 
@@ -14,6 +14,6 @@ namespace meta
     using _3rd_preference = preference<3>;
     using _4th_preference = preference<4>;
     using _5th_preference = preference<5>;
-    
+
     using overload_selector = _1st_preference;
 }
