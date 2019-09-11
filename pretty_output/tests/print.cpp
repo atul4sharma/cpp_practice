@@ -2,6 +2,7 @@
 
 #include <catch/catch.hpp>
 #include <include/print.hpp>
+#include <include/foo.hpp>
 
 #include <memory>
 #include <iostream>
@@ -56,3 +57,10 @@ TEST_CASE("std::unique_ptr<int>", "[unique_ptr]")
 }
 
 #endif
+
+TEST_CASE("custom object check", "[custom_object]")
+{
+    auto const object = foo{20};
+    REQUIRE_NOTHROW( println(std::cout, object) );
+}
+

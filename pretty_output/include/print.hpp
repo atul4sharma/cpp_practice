@@ -66,6 +66,14 @@ namespace {
     }
 }
 
+template <typename T, typename D>
+auto print_impl(std::ostream & out, std::unique_ptr<T, D> const & ptr, meta::_1st_preference)
+    -> std::ostream &
+{
+    // TODO : Try to print some other valuable information here 
+    return print(out, *ptr);
+}
+
 template <typename Container>
 auto print_impl(std::ostream & out, Container const & item, meta::_2nd_preference)
     -> decltype(std::tuple_size<Container>::value , out)
@@ -73,11 +81,11 @@ auto print_impl(std::ostream & out, Container const & item, meta::_2nd_preferenc
    return print_indexable(out, item);
 }
 
-template <typename T, typename D>
-auto print_impl(std::ostream & out, std::unique_ptr<T, D> const & ptr, meta::_1st_preference)
-    -> std::ostream &
+template <typename CustomObject>
+auto print_impl(std::ostream & out, CustomObject const & object, meta::_3rd_preference)
+    -> decltype(to_string(object), out)
 {
-    return print(out, *ptr);
+    return print(out, to_string(object));
 }
 
 template <typename T>
