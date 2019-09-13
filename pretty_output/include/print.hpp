@@ -3,7 +3,13 @@
 
 #include "overload_selector.hpp"
 
+#include <memory>
+#include <string>
 #include <tuple>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
+
 #if __cplusplus < 201402
     #include "integer_sequence.hpp"
     using meta::integer_sequence;

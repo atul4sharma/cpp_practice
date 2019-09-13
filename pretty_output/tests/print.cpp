@@ -1,8 +1,9 @@
 
 
-#include <catch/catch.hpp>
 #include <include/print.hpp>
 #include <include/foo.hpp>
+
+#include <catch/catch.hpp>
 
 #include <memory>
 #include <iostream>
