@@ -78,7 +78,7 @@ auto assert_no_circular_dependency(std::vector<row> const & rules)
 {
     auto const row_hash = [](row const & item)
     {
-        return std::hash<std::string>()(item.class_id);
+        return std::hash<std::string>{}(item.class_id);
     };
 
     auto const row_equal = [](row const & lt, row const & rt)
