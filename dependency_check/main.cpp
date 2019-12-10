@@ -1,7 +1,6 @@
 
 #include <pretty_output/include/print.hpp>
 
-#include <deque>
 #include <vector>
 #include <iostream>
 #include <unordered_set>
@@ -22,6 +21,10 @@ struct row
     friend auto operator << (std::ostream       & out
                             ,row          const & item)
         -> std::ostream &;
+
+    friend auto operator <  (row const & lt
+                            ,row const & rt)
+        -> bool;
 };
 
 auto operator << (std::ostream       & out
@@ -33,45 +36,78 @@ auto operator << (std::ostream       & out
     return out;
 }
 
-auto has_circular_dependency(std::unordered_set<std::string>       & visiting
-                            ,std::deque<std::string>               & visited
-                            ,row                             const & item
-                            ,std::vector<row>                const & universe)
+auto operator < (row const & lt
+                ,row const & rt)
+    -> bool
 {
-    // visiting.emplace_back(item.class_id);
+    return lt.class_id < rt.class_id;
+}
+
+template <typename CustomUnorderedSet>
+auto has_circular_dependency(std::unordered_set<std::string>       & visiting
+                            ,std::vector<std::string>              & visited
+                            ,row                             const & item
+                            ,CustomUnorderedSet              const & universe)
+{
     auto insertion = visiting.insert(item.class_id);
     if( ! insertion.second )
     {
         return true;
     }
 
-    //println(std::cout << "Visiting -> ", visiting);
     for(auto const & dep : item.dependencies)
     {
-        //println(std::cout << "Checking dependency -> ", dep);
-        auto already_visited = visiting.find(dep);
-        if( already_visited !=  visiting.end() )
-        {
-            //println(std::cout << "Already visited ", *already_visited);
-            return true;
-        }
-        auto iter = std::find_if(universe.begin(), universe.end(), [&dep](row const & x) { return x.class_id == dep;});
+        auto iter = universe.find(row{dep, std::vector<std::string>{}});
         if( iter != universe.end() )
         {
-            //println(std::cout << "going down the tree ", *iter);
             auto has_dependency = has_circular_dependency(visiting, visited, *iter, universe);
             if( has_dependency )
             {
-                visited.push_front(dep);
-                //println(std::cout, dep);
+                visited.emplace_back(dep);
                 return true;
             }
         }
     }
-    // visiting.pop_back();
+
     visiting.erase(insertion.first);
     return false;
 }
+
+auto assert_no_circular_dependency(std::vector<row> const & rules)
+    -> void
+{
+    auto const row_hash = [](row const & item)
+    {
+        return std::hash<std::string>()(item.class_id);
+    };
+
+    auto const row_equal = [](row const & lt, row const & rt)
+    {
+        return (not(lt < rt)) and (not(rt < lt));
+    };
+
+    auto const universe = std::unordered_set<row, decltype(row_hash), decltype(row_equal)>(rules.begin(), rules.end(), 0, row_hash, row_equal);
+
+    auto visiting   = std::unordered_set<std::string>{};
+    auto bt_visited = std::vector<std::string>{};
+
+    for( auto const & id : universe)
+    {
+        if( has_circular_dependency(visiting, bt_visited, id, universe) )
+        {
+            bt_visited.emplace_back(id.class_id);
+            std::reverse(bt_visited.begin(), bt_visited.end());
+
+            println(std::cout << "********** Has dep for -> ", id);
+            println(std::cout << "********** Visited class_ids -> ", bt_visited);
+            //throw std::runtime_error(std::string{"has cicular dependency."});
+        }
+        else
+            println(std::cout << "********** Does not have circular dependency -> ", id);
+        bt_visited.clear();
+    }
+}
+
 
 int main()
 {
@@ -85,23 +121,7 @@ int main()
 
     println(std::cout, universe);
 
-    auto visiting = std::unordered_set<std::string>{};
-    auto bt_visited  = std::deque<std::string>{};
-
-    auto has = false;
-    for( auto const & id : universe)
-    {
-        has = has_circular_dependency(visiting, bt_visited, id, universe);
-        if( has )
-        {
-            bt_visited.push_front(id.class_id);
-            println(std::cout << "********** Has dep for -> ", id);
-            println(std::cout << "********** Visited class_ids -> ", bt_visited);
-        }
-        else
-            println(std::cout << "********** Does not have circular dependency -> ", id);
-        bt_visited.clear();
-    }
+    assert_no_circular_dependency(universe);
 
     return 0;
 }
