@@ -65,7 +65,7 @@ auto has_circular_dependency(std::vector<std::string>       & visiting
 int main()
 {
     auto const universe = std::vector<row>{ row{"A", std::vector<std::string>{"B", "C", "D"}}
-                                           ,row{"C", std::vector<std::string>{"F"}}
+                                           ,row{"C", std::vector<std::string>{"E"}}
                                            ,row{"E", std::vector<std::string>{"A"}}
                                            };
 
@@ -80,11 +80,11 @@ int main()
         has = has_circular_dependency(visiting, id, universe);
         if( has )
         {
-            println(std::cout << "Has dep for -> ", id);
-            println(std::cout << "Visited class_ids -> ", visiting);
+            println(std::cout << "********** Has dep for -> ", id);
+            println(std::cout << "********** Visited class_ids -> ", visiting);
         }
         else
-            println(std::cout << "Does not have circular dependency -> ", id);
+            println(std::cout << "********** Does not have circular dependency -> ", id);
     }
 
     return 0;
