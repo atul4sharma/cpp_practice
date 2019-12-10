@@ -73,20 +73,27 @@ auto has_circular_dependency(std::unordered_set<std::string>       & visiting
     return false;
 }
 
-auto assert_no_circular_dependency(std::vector<row> const & rules)
-    -> void
+struct row_hash
 {
-    auto const row_hash = [](row const & item)
+    auto operator () (row const & item) const 
     {
         return std::hash<std::string>{}(item.class_id);
-    };
+    }
+};
 
-    auto const row_equal = [](row const & lt, row const & rt)
+struct row_equal
+{
+    auto operator () (row const & lt, row const & rt) const 
     {
         return (not(lt < rt)) and (not(rt < lt));
     };
+};
 
-    auto const universe = std::unordered_set<row, decltype(row_hash), decltype(row_equal)>(rules.begin(), rules.end(), 0, row_hash, row_equal);
+auto assert_no_circular_dependency(std::vector<row> const & rules)
+    -> void
+{
+
+    auto const universe = std::unordered_set<row, row_hash, row_equal>(rules.begin(), rules.end(), 0, row_hash{}, row_equal{});
 
     auto visiting   = std::unordered_set<std::string>{};
     auto bt_visited = std::vector<std::string>{};
