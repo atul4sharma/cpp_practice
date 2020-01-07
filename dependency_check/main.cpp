@@ -4,6 +4,9 @@
 #include <vector>
 #include <iostream>
 #include <unordered_set>
+#include <unordered_map>
+
+#include <algorithm>
 
 struct row
 {
@@ -43,21 +46,20 @@ auto operator < (row const & lt
     return lt.class_id < rt.class_id;
 }
 
-template <typename CustomUnorderedSet>
-auto has_circular_dependency(std::unordered_set<std::string>       & visiting
-                            ,std::vector<std::string>              & visited
-                            ,row                             const & item
-                            ,CustomUnorderedSet              const & universe)
+auto has_circular_dependency(std::unordered_set<std::string>                                 & visiting
+                            ,std::vector<std::string>                                        & visited
+                            ,std::pair<std::string, std::vector<std::string>>          const & item
+                            ,std::unordered_map<std::string, std::vector<std::string>> const & universe)
 {
-    auto insertion = visiting.insert(item.class_id);
+    auto insertion = visiting.insert(item.first);
     if( ! insertion.second )
     {
         return true;
     }
 
-    for(auto const & dep : item.dependencies)
+    for(auto const & dep : item.second)
     {
-        auto iter = universe.find(row{dep, std::vector<std::string>{}});
+        auto iter = universe.find(dep);
         if( iter != universe.end() )
         {
             auto has_dependency = has_circular_dependency(visiting, visited, *iter, universe);
@@ -73,27 +75,21 @@ auto has_circular_dependency(std::unordered_set<std::string>       & visiting
     return false;
 }
 
-struct row_hash
-{
-    auto operator () (row const & item) const 
-    {
-        return std::hash<std::string>{}(item.class_id);
-    }
-};
-
-struct row_equal
-{
-    auto operator () (row const & lt, row const & rt) const 
-    {
-        return (not(lt < rt)) and (not(rt < lt));
-    };
-};
-
 auto assert_no_circular_dependency(std::vector<row> const & rules)
     -> void
 {
-
-    auto const universe = std::unordered_set<row, row_hash, row_equal>(rules.begin(), rules.end(), 0, row_hash{}, row_equal{});
+    auto const universe = [&rules] ()
+    {
+        auto universe_ = std::unordered_map<std::string, std::vector<std::string>>{};
+        std::transform(rules.begin()
+                      ,rules.end()
+                      ,std::inserter(universe_, universe_.end())
+                      ,[](auto const & item)
+                      {
+                           return std::make_pair(item.class_id, item.dependencies);
+                      });
+        return universe_;
+    }();
 
     auto visiting   = std::unordered_set<std::string>{};
     auto bt_visited = std::vector<std::string>{};
@@ -102,7 +98,7 @@ auto assert_no_circular_dependency(std::vector<row> const & rules)
     {
         if( has_circular_dependency(visiting, bt_visited, id, universe) )
         {
-            bt_visited.emplace_back(id.class_id);
+            bt_visited.emplace_back(id.first);
             std::reverse(bt_visited.begin(), bt_visited.end());
 
             println(std::cout << "********** Has dep for -> ", id);
