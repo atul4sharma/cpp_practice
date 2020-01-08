@@ -10,8 +10,9 @@
 #if 1
 auto generate_primes()
 {
-    auto constexpr max = 1000000;
-    auto is_prime = std::vector<bool>(max + 1, true);
+    //auto constexpr max = std::numeric_limits<int>::max();
+    auto constexpr max = 100000;
+    auto is_prime = std::vector<bool>(max, true);
     is_prime[0] = false;
     is_prime[1] = false;
 
@@ -20,7 +21,7 @@ auto generate_primes()
     {
         if( is_prime[i] )
         {
-            for( int j = 2 * i; j <= max ; j += i)
+            for( int j = 2 * i; j < max ; j += i)
             {
                 //std::cout << j * i << ", ";
                 is_prime[j] = false;
@@ -31,7 +32,7 @@ auto generate_primes()
     auto const primes = [&is_prime] ()
     {
         auto primes_ = std::vector<int>{};
-        primes_.reserve(is_prime.size());
+        primes_.reserve(is_prime.size()); // Just a hunch
         for(auto i = 0; i < static_cast<int>(is_prime.size()); ++i)
         {
             if( is_prime[i] )
