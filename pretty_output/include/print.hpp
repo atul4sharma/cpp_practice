@@ -52,6 +52,31 @@ auto print_impl(std::ostream & out, Container const & iterable, meta::_2nd_prefe
     return out;
 }
 
+#if 0
+template <typename RangeIterator>
+auto print_impl(std::ostream & out, std::pair<RangeIterator, RangeIterator> const & item, meta::_3rd_preference)
+    -> decltype(std::distance(item.first, item.second), out)
+{
+    auto first = item.first;
+    auto last  = item.second;
+
+    out << "{";
+    if( first != last )
+    {
+        print(out, *first);
+        std::for_each(next(first)
+                     ,last
+                     ,[&out](decltype(*first) const & item)
+                            {
+                                 print((out << ", ", out), item);
+                            }
+                     );
+    }
+    out << "}";
+    return out;
+}
+#endif
+
 namespace {
     template <typename Range, typename Int, Int ... ints>
     auto print_indexable_impl(std::ostream & out, Range const & range, integer_sequence<Int, ints...>)
@@ -80,9 +105,9 @@ auto print_impl(std::ostream & out, std::unique_ptr<T, D> const & ptr, meta::_1s
     return print(out, *ptr);
 }
 
-template <typename Container>
-auto print_impl(std::ostream & out, Container const & item, meta::_2nd_preference)
-    -> decltype(std::tuple_size<Container>::value , out)
+template <typename IndexableContainer>
+auto print_impl(std::ostream & out, IndexableContainer const & item, meta::_2nd_preference)
+    -> decltype(std::tuple_size<IndexableContainer>::value , out)
 {
    return print_indexable(out, item);
 }
