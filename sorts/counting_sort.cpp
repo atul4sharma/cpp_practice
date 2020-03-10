@@ -28,20 +28,20 @@ auto countsort(std::vector<int> const & numbers)
     std::for_each(numbers.cbegin()
                  ,numbers.cend()
                  ,[&counter] (int const num) {
-                    counter[num] += 1;
+                    counter.at(num) += 1;
                  });
     //println(std::cout << "counter vector => ", counter);
 
     for( auto i = 1; i < static_cast<int>(counter.size()); ++i )
-        counter[i] += counter[i-1];
+        counter.at(i) += counter.at(i-1);
 
     //println(std::cout << "aggregated vector => ", counter);
 
     auto sorted_numbers = std::vector<int>(numbers.size(), 0);
     for(auto i = static_cast<int>(numbers.size()) - 1; i >= 0; --i)
     {
-        sorted_numbers[ counter[ numbers[i] ] - 1 ] = numbers[i];
-        counter[ numbers[i] ] -= 1;
+        sorted_numbers.at( counter.at( numbers.at(i) ) - 1 ) = numbers.at(i);
+        counter.at( numbers.at(i) ) -= 1;
     }
     return sorted_numbers;
 }
@@ -49,7 +49,6 @@ auto countsort(std::vector<int> const & numbers)
 int main()
 {
     auto v = random_vector(20);
-    //auto v = std::vector<int>(10);
     println(std::cout << "Random vector => ", v);
     auto res = countsort(v);
     println(std::cout << "Sorted vector => ", res);
