@@ -32,8 +32,9 @@ auto countsort(std::vector<int> const & numbers)
                  });
     //println(std::cout << "counter vector => ", counter);
 
-    for( auto i = 1; i < static_cast<int>(counter.size()); ++i )
-        counter.at(i) += counter.at(i-1);
+    std::partial_sum(counter.begin()
+                    ,counter.end()
+                    ,counter.begin());
 
     //println(std::cout << "aggregated vector => ", counter);
 
