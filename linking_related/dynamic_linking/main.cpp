@@ -11,8 +11,8 @@ int main()
     std::cout << foo() << '\n';
     std::cout << bar() << '\n';
 
-    std::cout << "Sleeping for 30 seconds\n";
-    std::this_thread::sleep_for(std::chrono::seconds{30});
+    std::cout << "Sleeping for 10 seconds\n";
+    std::this_thread::sleep_for(std::chrono::seconds{10});
 
     return 0;
 }

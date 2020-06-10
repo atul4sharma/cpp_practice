@@ -6,8 +6,8 @@
 
 int main()
 {
-    std::cout << foo() << '\n';
-    std::cout << bar() << '\n';
+    std::cout << "foo: " << foo() << '\n';
+    std::cout << "bar: " << bar() << '\n';
 
     return 0;
 }

@@ -5,7 +5,7 @@ cpp17: libfoo_bar.so
 	$(GCC_CMD) -o cpp17.out main.cpp -L. -lfoo_bar
 
 rpath_build: libfoo_bar.so
-	$(GCC_CMD) -o cpp17_rpath.out main.cpp -Wl,-rpath=. -L. -lfoo_bar
+	$(GCC_CMD) -o cpp17_rpath.out main.cpp -Wl,-rpath=\$$ORIGIN/. -L. -lfoo_bar
 
 rpath_build_abs: libfoo_bar.so
 	$(GCC_CMD) -o cpp17_rpath_abs.out main.cpp -Wl,-rpath=/home/atul/cpp_practice_github/linking_related/dynamic_linking -L. -lfoo_bar

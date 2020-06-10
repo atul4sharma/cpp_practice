@@ -1,8 +1,5 @@
 
 #pragma once
 
-extern "C"
-{
-    int bar();
-}
+int bar();
 

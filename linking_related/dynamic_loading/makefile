@@ -6,7 +6,7 @@ cpp17: libfoo_bar.so
 	$(GCC_CMD) -o cpp17.out main.cpp -ldl
 
 cpp17_rdym: libfoo_bar.so
-	$(GCC_CMD) -rdynamic -o cpp17_rdym.out main.cpp -ldl
+	$(GCC_CMD) -g -rdynamic -o cpp17_rdym.out main.cpp -ldl
 
 libfoo_bar.so: foo.o bar.o
 	$(GCC_CMD) -shared foo.o bar.o -o libfoo_bar.so
