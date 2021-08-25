@@ -6,6 +6,6 @@ clean:
 
 run.lab: main.cpp
 	g++ -std=c++11 -fno-elide-constructors -Wall \
-		-I/home/atul/cpp_practice_github/ \
-		-L/home/atul/cpp_practice_github/elision/ -lbar \
+		-I.. \
+		-L../elision/ -lbar \
 		main.cpp -o run.lab
